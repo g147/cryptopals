@@ -1,3 +1,5 @@
+# Convert hex to base64
+
 from binascii import a2b_hex, b2a_base64
 
 def main():
