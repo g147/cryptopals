@@ -1,3 +1,5 @@
+# Implement repeating-key XOR
+
 def main():
     messages = open('data/challenge05.txt').readlines()
     key = "ICE"     
