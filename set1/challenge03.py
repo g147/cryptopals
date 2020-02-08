@@ -1,5 +1,7 @@
 # Single-byte XOR cipher
 
+from binascii import unhexlify
+
 def get_english_score(input_bytes):
     character_frequencies = {
         'a': .08167, 'b': .01492, 'c': .02782, 'd': .04253,
@@ -19,13 +21,11 @@ def single_char_xor(input_bytes, char_value):
         output_bytes += bytes([byte ^ char_value])
     return output_bytes
 
-
-def main():
-    hexstring = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
-    ciphertext = bytes.fromhex(hexstring)
+def bruteforce_single_char_xor(ciphertext):
+    ciphertext = unhexlify(ciphertext)
     potential_messages = []
     for key_value in range(256):
-        message = single_char_xor(ciphertext, key_value)
+        message = single_char_xor(ciphertext, key_value) 
         score = get_english_score(message)
         data = {
             'message': message,
@@ -33,9 +33,11 @@ def main():
             'key': key_value
             }
         potential_messages.append(data)
-    best_score = sorted(potential_messages, key=lambda x: x['score'], reverse=True)[0]
-    for item in best_score:
-        print("{}: {}".format(item.title(), best_score[item]))
+    return sorted(potential_messages, key=lambda x: x['score'], reverse=True)[0]['message'].decode()
 
+
+def main():
+    print(bruteforce_single_char_xor('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'))
+    
 if __name__ == '__main__':
     main()

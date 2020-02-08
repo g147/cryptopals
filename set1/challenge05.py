@@ -1,11 +1,13 @@
 # Implement repeating-key XOR
 
+from binascii import hexlify
+
 def main():
     messages = open('data/challenge05.txt').readlines()
     key = "ICE"     
     for text in messages:
         cipher = repeating_key_xor(text, key)
-        print (cipher.hex())
+        print (hexlify(cipher).decode())
 
 def repeating_key_xor(message, key):
     i=0

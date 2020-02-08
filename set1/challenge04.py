@@ -1,5 +1,7 @@
 # Detect single-character XOR
 
+from binascii import unhexlify
+
 def get_english_score(input_bytes):
     character_frequencies = {
         'a': .08167, 'b': .01492, 'c': .02782, 'd': .04253,
@@ -38,12 +40,10 @@ def main():
     ciphers = open('data/challenge04.txt').read().splitlines()
     potential_plaintext = []
     for hexstring in ciphers:
-        ciphertext = bytes.fromhex(hexstring)
+        ciphertext = unhexlify(hexstring)
         potential_plaintext.append(bruteforce_single_char_xor(ciphertext))
-    best_score = sorted(potential_plaintext, key=lambda x: x['score'], reverse=True)[0]
-    for item in best_score:
-        print("{}: {}".format(item.title(), best_score[item]))
+    print(sorted(potential_plaintext, key=lambda x: x['score'], reverse=True)[0]['message'].decode())
         
-
+        
 if __name__ == '__main__':
     main()
